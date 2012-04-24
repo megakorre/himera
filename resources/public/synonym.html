@@ -16,6 +16,16 @@ remove this notice, or any other, from this software.
   <script type="text/javascript" src="vendor/shCore.js"></script>
   <script type="text/javascript" src="vendor/shBrushClojure.js"></script>
   <script type="text/javascript" src="vendor/shBrushJScript.js"></script>
+  <script type="text/javascript" src="javascript/codemirror.js"></script>
+  <script type="text/javascript" src="javascript/clojure.codemirror.js"></script>
+
+  <script type="text/javascript" src="con.js"></script>
+  <script type="text/javascript" src="repl.js"></script>
+  <script type="text/javascript">
+    goog.require('himera.client.repl');
+  </script>
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/codemirror.css" />
   <link rel="stylesheet" type="text/css" href="stylesheets/base.css" />
   <link rel="stylesheet" type="text/css" href="stylesheets/layout.css" />
   <link rel="stylesheet" type="text/css" href="stylesheets/skeleton.css" />
@@ -23,8 +33,54 @@ remove this notice, or any other, from this software.
   <link rel="stylesheet" type="text/css" href="vendor/shCore.css" />
   <link rel="stylesheet" type="text/css" href="vendor/shThemeMarginalia.css" />
   <title>Himera Synonym</title>
+
+
+  <script type="text/javascript">
+      /* move into cljs */
+
+      //    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {});
+      $(document).ready(function() {
+        var sendToRepl = function(code) {
+
+          alert(code);
+       
+           
+        };
+  
+        $(".cljs-code").each(function() {
+          var container = $(this).parents(".cheat-box-container");
+          var mirror = CodeMirror.fromTextArea(this, { mode: "clojure" });
+          
+          container.append(
+           $("<button>Send To REPL</button>")
+            .click(function() { sendToRepl(mirror.getValue()); })
+            .addClass("send-to-repl-btn"));
+        });
+        
+        
+      });
+  </script>
+
+  <style>
+    .cm-s-default { min-height: 120px; }
+    #console {
+     position: fixed;
+     bottom: 0px;
+     z-index: 100;
+     width: 100%;
+    }
+
+    .container {
+      margin-bottom: 300px;
+    }
+  </style>
+
+  
+
 </head>
 <body>
+
+  <div class="console" id="console"></div>
 
   <div id="himera-synonym" class="container">
 
@@ -44,7 +100,7 @@ remove this notice, or any other, from this software.
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                <pre class="brush: clojure">(.log js/console "Hello, world!")</pre>
+                <textarea class="cljs-code">(.log js/console "Hello, world!")</textarea>
             </div>
         </div>
     </div>
@@ -60,7 +116,7 @@ remove this notice, or any other, from this software.
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                <pre class="brush: clojure">(ns my.library)</pre>
+                <textarea class="cljs-code">(ns my.library)</textarea>
             </div>
         </div>
     </div>
@@ -75,9 +131,9 @@ remove this notice, or any other, from this software.
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 (ns my.library
-  (:require [other.library :as other]))</pre>
+  (:require [other.library :as other]))</textarea>
             </div>
         </div>
     </div>
@@ -93,7 +149,7 @@ remove this notice, or any other, from this software.
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                <pre class="brush: clojure">(def foo "bar")</pre>
+                <textarea class="cljs-code">(def foo "bar")</textarea>
             </div>
         </div>
     </div>
@@ -111,9 +167,9 @@ function foo() {
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                <pre class="brush: clojure">
+                <textarea class="cljs-code">
 (defn foo []
-  (let [bar 1]))</pre>
+  (let [bar 1]))</textarea>
             </div>
         </div>
     </div>
@@ -144,12 +200,12 @@ printName();
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 ;; ClojureScript does not hoist variables
 ;; this function will issue a warning
 (defn print-name []
   (.log js/console "Hello, " name)
-  (let [name "Bob"]))</pre>
+  (let [name "Bob"]))</textarea>
             </div>
         </div>
     </div>
@@ -168,9 +224,9 @@ var a = [1 2 3]</pre>
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 (def a (array))
-(def a (array 1 2 3))</pre>
+(def a (array 1 2 3))</textarea>
             </div>
         </div>
     </div>
@@ -186,10 +242,10 @@ var a = [1 2 3]</pre>
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 (def l (list))
 (def l (list 1 2 3))
-(def l '(1 2 3))</pre>
+(def l '(1 2 3))</textarea>
             </div>
         </div>
     </div>
@@ -205,10 +261,10 @@ var a = [1 2 3]</pre>
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                <pre class="brush: clojure">
+                <textarea class="cljs-code">
 (def v (vector))
 (def v [])
-(def v [1 2 3])</pre>
+(def v [1 2 3])</textarea>
             </div>
         </div>
     </div>
@@ -224,10 +280,10 @@ var a = [1 2 3]</pre>
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 (def s (set))
 (def s #{})
-(def s #{:cat :bird :dog})</pre>
+(def s #{:cat :bird :dog})</textarea>
             </div>
         </div>
     </div>
@@ -243,10 +299,10 @@ var a = [1 2 3]</pre>
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 (def m (hash-map))
 (def m {})
-(def m {:foo 1 :bar 2})</pre>
+(def m {:foo 1 :bar 2})</textarea>
             </div>
         </div>
     </div>
@@ -266,11 +322,11 @@ var m = {
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 ;; Arbitrary keys allowed
 (def m { [1 2] 3
         #{1 2} 3
-        '(1 2) 3 })</pre>
+        '(1 2) 3 })</textarea>
             </div>
         </div>
     </div>
@@ -291,10 +347,10 @@ function foo() {
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 (defn foo []
   true)
-</pre>
+</textarea>
             </div>
         </div>
     </div>
@@ -316,12 +372,12 @@ function foo() {
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 ;; ClojureScript is expression oriented
 ;; no explicit return
 (defn foo []
   true)
-</pre>
+</textarea>
             </div>
         </div>
     </div>
@@ -341,9 +397,9 @@ var foo = function() {
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 (def foo (fn [] true))
-</pre>
+</textarea>
             </div>
         </div>
     </div>
@@ -363,14 +419,14 @@ foo(1, 2, 3) // => 3
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 (defn foo [a b c] c)
 
 (foo 1) ;; WARNING: function called with incorrect
         ;; number of arguments
 
 (foo 1 2 3) ;; => 3
-</pre>
+</textarea>
             </div>
         </div>
     </div>
@@ -389,7 +445,7 @@ foo(1, 2, 3) // => 3
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 (defn foo
   ([a] "one")
   ([a b] "two")
@@ -401,7 +457,7 @@ foo(1, 2, 3) // => 3
 
 ;; Under advanced compilation direct dispatch to
 ;; arity. No arguments object manipulation
-</pre>
+</textarea>
             </div>
         </div>
     </div>
@@ -423,12 +479,12 @@ function foo() {
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 ;; all arguments beyond two will be placed in a
 ;; sequence bound to rest
 (defn foo [a b & rest]
   ...)
-</pre>
+</textarea>
             </div>
         </div>
     </div>
@@ -458,7 +514,7 @@ function foo(o) {
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 (defn foo [& {:keys [bar baz]}]
   ...)
 
@@ -468,7 +524,7 @@ function foo(o) {
               :or {bar "default1"
                    baz "default2"}}]
   ...)
-</pre>
+</textarea>
             </div>
         </div>
     </div>
@@ -499,7 +555,7 @@ for (var key in data) {
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 ;; All ClojureScript datastructures support
 ;; uniform iterations. JavaScript natives are
 ;; safely to the same iteration protocol
@@ -518,7 +574,7 @@ for (var key in data) {
 (doseq [[k v] data]
   (.log js/console "key" k)
   (.log js/console "value" v))
-</pre>
+</textarea>
             </div>
         </div>
     </div>
@@ -556,7 +612,7 @@ for (let i = 0; i < 10; i++) {
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 ;; ClojureScript has proper lexical scope
 (def callbacks (atom []))
 
@@ -564,7 +620,7 @@ for (let i = 0; i < 10; i++) {
   (swap! callbacks conj (fn [] i)))
 
 ((@callbacks 0)) // => 0
-</pre>
+</textarea>
             </div>
         </div>
     </div>
@@ -588,7 +644,7 @@ Person.prototype.greet = function() {
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 (deftype Person [name]
   Object
   (greet [_]
@@ -597,7 +653,7 @@ Person.prototype.greet = function() {
 ;; Constructors don't look like functions
 ;; No explicit prototype manipulation
 ;; No explicit 'this' to access fields
-</pre>
+</textarea>
             </div>
         </div>
     </div>
@@ -614,9 +670,9 @@ var person = new Person("Bob");
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
-(Person. "Bob")
-</pre>
+                            <textarea class="cljs-code">
+(def person (Person. "Bob"))
+</textarea>
             </div>
         </div>
     </div>
@@ -634,11 +690,11 @@ typeof name // => "string"
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 ;; reflection returns constructors not strings
 (def name "Bob")
 (type name) ;; => String
-</pre>
+</textarea>
             </div>
         </div>
     </div>
@@ -659,7 +715,7 @@ name instanceof String // => true
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 (def name "Bob")
 
 (= (type name) js/String) ;; => true
@@ -667,7 +723,7 @@ name instanceof String // => true
 
 (not= (type name) js/Number) ;; => true
 (not (number? name)) ;; => true
-</pre>
+</textarea>
             </div>
         </div>
     </div>
@@ -698,7 +754,7 @@ Dog.prototype.sound = function() {
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 (defprotocol ISound (sound []))
 
 (deftype Cat []
@@ -714,7 +770,7 @@ Dog.prototype.sound = function() {
   (sound [_] "... silence ..."))
 
 (sound 1) ;; => "... silence ..."
-</pre>
+</textarea>
             </div>
         </div>
     </div>
@@ -733,7 +789,7 @@ email.match(/@/)
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <pre class="cljs-code">
 (def email "test@example.com")
 (.match email #"@")
 ;; => ["@"]
@@ -754,11 +810,11 @@ invalidEmail.match(/@/g)
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 (def invalid-email "f@il@example.com")
 (re-seq #"@" invalid-email)
 ;; => ("@" "@")
-</pre>
+</textarea>
             </div>
         </div>
     </div>
@@ -777,7 +833,7 @@ throw Error("Oops!");
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <pre class="cljs-code">
 (throw (js/Error. "Oops!"))
 </pre>
             </div>
@@ -806,7 +862,7 @@ try {
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
+                            <textarea class="cljs-code">
 (try
   (undefined-function)
   (catch Error e
@@ -816,7 +872,7 @@ try {
   (finally
     (.log js/console
         "this runs even if an exception is thrown"))))
-</pre>
+</textarea>
             </div>
         </div>
     </div>
@@ -835,10 +891,10 @@ try {
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
-// ClojureScript is dynamic, standard runtime
-// metaprogramming techniques applicable
-</pre>
+                            <textarea class="cljs-code">
+;; ClojureScript is dynamic, standard runtime
+;; metaprogramming techniques applicable
+</textarea>
             </div>
         </div>
     </div>
@@ -856,18 +912,18 @@ try {
 
         <div class="cheat-box-container eight columns">
             <div class="cheat-box">
-                            <pre class="brush: clojure">
-// ClojureScript has compiler macros, no external
-// tool required
+                            <textarea class="cljs-code">
+;; ClojureScript has compiler macros, no external
+;; tool required
 (defmacro my-code-transformation [...]
   ...)
 
-// Ocaml, Haskell style pattern matching is a
-// library.
+;; Ocaml, Haskell style pattern matching is a
+;; library.
 
-// Prolog style relational programming is a
-// library
-</pre>
+;; Prolog style relational programming is a
+;; library
+</textarea>
             </div>
         </div>
     </div>
@@ -889,6 +945,12 @@ try {
 <script type="text/javascript">
 SyntaxHighlighter.defaults["gutter"] = false;
 SyntaxHighlighter.all();
+</script>
+
+<script>
+  himera.client.repl.go();
+  goog.require('cljs.core');
+  goog.provide('cljs.user');
 </script>
 
 </body>
