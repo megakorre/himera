@@ -41,10 +41,7 @@ remove this notice, or any other, from this software.
       //    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {});
       $(document).ready(function() {
         var sendToRepl = function(code) {
-
-          alert(code);
-       
-           
+          himera.client.repl.on_handle("(do " + code + " )");
         };
   
         $(".cljs-code").each(function() {
@@ -52,7 +49,7 @@ remove this notice, or any other, from this software.
           var mirror = CodeMirror.fromTextArea(this, { mode: "clojure" });
           
           container.append(
-           $("<button>Send To REPL</button>")
+           $("<button>Run Code</button>")
             .click(function() { sendToRepl(mirror.getValue()); })
             .addClass("send-to-repl-btn"));
         });
